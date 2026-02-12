@@ -1,22 +1,37 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { useState, useEffect, useCallback } from 'react'
 import './App.css'
+import axios from 'axios'
 
 function App() {
   const [count, setCount] = useState(0)
 
+  const [imgUrl, setImgUrl] = useState("");
+
+
+  const fetchDogImage = useCallback(async () => {
+    try {
+      const response = await axios.get("http://dog.ceo/api/breeds/image/random");
+      setImgUrl(response.data.message);
+    } catch (error) {
+      console.error("Error fetching dog image:", error);
+    }
+  }, [])
+
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    fetchDogImage();
+  }, [])
+
+
+
+
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        {imgUrl && <img src={imgUrl} alt="Random Dog" />}
       </div>
-      <h1>Ahmed</h1>
+      <h1>Cute dog</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
