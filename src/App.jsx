@@ -10,7 +10,7 @@ function App() {
 
   const fetchDogImage = useCallback(async () => {
     try {
-      const response = await axios.get("http://dog.ceo/api/breeds/image/random");
+      const response = await axios.get("https://dog.ceo/api/breeds/image/random");
       setImgUrl(response.data.message);
     } catch (error) {
       console.error("Error fetching dog image:", error);
