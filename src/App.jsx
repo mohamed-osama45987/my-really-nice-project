@@ -11,7 +11,6 @@ import AuthProvider from './providers/AuthProvider'
 
 
 function App() {
-
   return (
     <AuthProvider>
       <Routes>
