@@ -1,49 +1,31 @@
-import { useState, useEffect, useCallback } from 'react'
 import './App.css'
-import axios from 'axios'
+import { Routes, Route } from 'react-router'
+import Layout from './pages/Home'
+import About from './pages/About'
+import Contact from './pages/Contact'
+import Error from './pages/Error'
+import { routes } from './constants'
+import VersionedHome from './components/VersionedHome'
+import LoginPage from './pages/LoginPage'
+import SignUpPage from './pages/SignUpPage'
+import AuthProvider from './providers/AuthProvider'
+
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  const [imgUrl, setImgUrl] = useState("");
-
-
-  const fetchDogImage = useCallback(async () => {
-    try {
-      const response = await axios.get("http://dog.ceo/api/breeds/image/random");
-      setImgUrl(response.data.message);
-    } catch (error) {
-      console.error("Error fetching dog image:", error);
-    }
-  }, [])
-
-
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    fetchDogImage();
-  }, [])
-
-
-
-
   return (
-    <>
-      <div>
-        {imgUrl && <img src={imgUrl} alt="Random Dog" />}
-      </div>
-      <h1>Cute dog</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <AuthProvider>
+      <Routes>
+        <Route path={routes.Home} element={<Layout />} >
+          <Route index element={<VersionedHome />} />
+          <Route path={routes.VersionedHome} element={<VersionedHome />} />
+          <Route path={routes.About} element={<About />} />
+          <Route path={routes.Contact} element={<Contact />} />
+          <Route path={routes.Login} element={<LoginPage />} />
+          <Route path={routes.SignUp} element={<SignUpPage />} />
+          <Route path="*" element={<Error />} />
+        </Route>
+      </Routes>
+    </AuthProvider>
   )
 }
 
