@@ -1,30 +1,32 @@
 import { useContext } from "react";
 import AuthContext from "../context/AuthContext"
-import { Navigate, NavLink, useNavigate } from "react-router";
+import { Navigate, useNavigate } from "react-router";
 import { routes } from "../constants";
 import { useState } from "react";
 import NavBar from "../components/NavBar";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../DB/Firebase";
 
 
-const LoginPage = () => {
-    const { isLoggedIn, setIsLoggedInWithSession } = useContext(AuthContext);
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+const SignUpPage = () => {
+    const { isLoggedIn } = useContext(AuthContext);
+    const [email, setEmail] = useState("")
+    const [password, setPassword] = useState("")
     const navigate = useNavigate();
+
+
 
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
-            const userCredential = await signInWithEmailAndPassword(auth, email, password);
-            setIsLoggedInWithSession(true, userCredential);
-            navigate(routes.Home);
+            await createUserWithEmailAndPassword(auth, email, password);
+            navigate(routes.Login);
         } catch (error) {
-            console.error("Error logging in: ", error);
-            alert("Error logging in. Please try again.")
+            console.error("Error signing up: ", error);
+            alert("Error signing up. Please try again.")
         }
     }
+
 
     return (
         isLoggedIn ? <Navigate to={routes.Home} /> : (
@@ -32,7 +34,7 @@ const LoginPage = () => {
                 <NavBar />
                 <div className=" flex flex-col gap-5 items-start">
 
-                    <h1>Login Page</h1>
+                    <h1>Signup Page</h1>
 
                     <div className="flex flex-col gap-2 justify-center items-end">
                         <div className="flex gap-2">
@@ -48,14 +50,16 @@ const LoginPage = () => {
                     </div>
 
 
-                    <button className="bg-blue-500 text-white rounded-md px-4 py-2 self-center">Login</button>
+                    <button className="bg-blue-500 text-white rounded-md px-4 py-2 self-center">SignUp</button>
 
-                    <span>Don't have an account? <NavLink to={routes.SignUp} className="text-blue-500">Sign Up</NavLink></span>
                 </div>
 
-            </form >
+
+
+
+            </form>
         )
     )
 }
 
-export default LoginPage
+export default SignUpPage

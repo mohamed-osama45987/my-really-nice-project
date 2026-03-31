@@ -13,7 +13,7 @@ const Layout = () => {
         <div>
             <NavBar />
             <div>
-                {location.pathname.includes("login") ? <Outlet /> :
+                {location.pathname.includes("login") || location.pathname.includes("signup") ? <Outlet /> :
                     <LoggedInRoute>
                         <Outlet />
                     </LoggedInRoute>}

@@ -6,5 +6,6 @@ export const routes = {
   About: `${baseUrl}/about`,
   Contact: `${baseUrl}/contact`,
   VersionedHome: `${baseUrl}/home/:version`,
-  Login: `${baseUrl}/login`
+  Login: `${baseUrl}/login`,
+  SignUp: `${baseUrl}/signup`
 };

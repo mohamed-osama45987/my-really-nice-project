@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect, useReducer } from "react";
+import { useCallback, useState, useEffect, useReducer, useMemo } from "react";
 import axios from "axios";
 import { routes } from "../constants";
 import { useParams, useNavigate } from "react-router";
@@ -21,6 +21,8 @@ const reducer = (state, action) => {
     }
 };
 
+
+
 const VersionedHome = () => {
     const params = useParams();
     const navigate = useNavigate();
@@ -38,7 +40,22 @@ const VersionedHome = () => {
         } catch (error) {
             console.error("Error fetching dog image:", error);
         }
-    }, []);
+    }, [params]);
+
+
+
+    const button = useMemo(() => {
+        return (<button
+            onClick={() =>
+                navigate(routes.VersionedHome.replace(":version", "v1.0.2"))
+            }
+        >
+            Go to version 1.0.2
+        </button>)
+    }, [navigate]);
+
+
+
 
     useEffect(() => {
         // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -54,13 +71,7 @@ const VersionedHome = () => {
                     count is {state.count}
                 </button>
 
-                <button
-                    onClick={() =>
-                        navigate(routes.VersionedHome.replace(":version", "v1.0.2"))
-                    }
-                >
-                    Go to version 1.0.2
-                </button>
+                {button}
 
                 <p>
                     Edit <code>src/App.jsx</code> and save to test HMR

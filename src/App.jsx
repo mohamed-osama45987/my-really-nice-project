@@ -7,6 +7,7 @@ import Error from './pages/Error'
 import { routes } from './constants'
 import VersionedHome from './components/VersionedHome'
 import LoginPage from './pages/LoginPage'
+import SignUpPage from './pages/SignUpPage'
 import AuthProvider from './providers/AuthProvider'
 
 
@@ -20,6 +21,7 @@ function App() {
           <Route path={routes.About} element={<About />} />
           <Route path={routes.Contact} element={<Contact />} />
           <Route path={routes.Login} element={<LoginPage />} />
+          <Route path={routes.SignUp} element={<SignUpPage />} />
           <Route path="*" element={<Error />} />
         </Route>
       </Routes>
